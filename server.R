@@ -10,6 +10,8 @@
 library(shiny)
 library(dplyr)
 library(ggplot2)
+library(lubridate)
+library(scales)
 
 # Define server logic
 shinyServer(function(input, output) {
@@ -18,21 +20,14 @@ shinyServer(function(input, output) {
     stock_list_df <- read.csv('data/FBM_KLCI_stocks_list.csv')
     all_stocks_df <- read.csv('data/FBM_KLCI_historical_price_all_stocks.csv')
     
-    #calculate price trend
-    plotLineChart = function (maindf, mSymbol) {
-      p1 <- ggplot(filter(maindf, Symbol == mSymbol), mapping = aes(Date, Close, group = 1)) +
-        geom_line(color="#69b3a2") +
-        labs(x = "Date Range", y = "Close Price", 
-             title = mSymbol)  
-      p1 + theme(axis.text.x=element_text(angle = 90, hjust = 0))
-      print(p1)
-    }
+    #reformat all the date
+    all_stocks_df$Date <- ymd(all_stocks_df$Date)
     
     get_stocks_by_sector <- function(sector_id){
         stocks_by_sector <- stock_list_df %>% filter(SectorId == sector_id) %>% select(Symbol)
+        unlist(stocks_by_sector)
     }
     # ----------------------------------
-    
     
     # ----------------------------------
     #panel 5
@@ -56,6 +51,26 @@ shinyServer(function(input, output) {
         HTML(paste(sector_str, interval_str, stock_list_str, sep = '<br/>'))
     })
     
+    output$plot_price_analysis_by_sector <- renderPlot({
+      stock_list <- get_stocks_by_sector(input$sector_id)
+      sector_df <- all_stocks_df %>% filter(Symbol %in% stock_list)
+      
+      glimpse(sector_df)
+      
+      g <- ggplot(data = sector_df, aes(x=Date, y=Close, color=Symbol)) + geom_line()
+      
+      theme_bare <- theme(panel.background = element_blank(), 
+                          panel.grid = element_blank())
+      
+      g <- g + theme_bare + 
+        theme(axis.text = element_text(face = "bold", size = rel(1))) +
+        scale_x_date(labels=date_format ("%b %y"), breaks=("2 months")) +
+        theme(axis.text.x=element_text(angle = 90, hjust = 0))
+      
+      g <- g + labs(title = "Stock Price Trend", 
+                    caption = "Source: Yahoo Finance")
+      print(g) 
+    })
     
     # ----------------------------------
 })

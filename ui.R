@@ -47,7 +47,7 @@ shinyUI(navbarPage(title = "Starry Nine",
                               mainPanel(
                                 helpText("Select the sector you wished to explore."),
                                 htmlOutput("user_selection_analysis"),
-                                #plotOutput("PlotAnalysisBySector")
+                                plotOutput("plot_price_analysis_by_sector")
                               )
                             )
                    ),

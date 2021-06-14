@@ -1,10 +1,15 @@
 library(shiny)
+library(dplyr)
+library(ggplot2)
+library(lubridate)
+library(scales)
+library(treemap)
 
 shinyUI(navbarPage(title = "Starry Nine",
                    theme = "style/style.css",
                    fluid = TRUE, 
                    collapsible = TRUE,
-                   
+                  
                    # ----------------------------------
                    # tab panel 1 - Home
                    tabPanel("Home",
@@ -13,7 +18,70 @@ shinyUI(navbarPage(title = "Starry Nine",
                    
                    # ----------------------------------
                    # tab panel 2 - Market Overview
-                   tabPanel("Market Overview"
+                   tabPanel("Market Overview",
+                            titlePanel("Market Overview by Chart"),
+                            
+                            fluidRow(
+                              column(1),
+                              column(10,
+                                     helpText(align="center", "This section provides an overview of the FBMKLCI Stocks datasets in different charts."), 
+                                     helpText(align="center", "Select the chart type you wished to explore."), 
+                                     br(),
+                                     tabsetPanel( 
+                                       type = "pills", 
+                                       tabPanel("Table", br(), 
+                                                tags$div(
+                                                  class = "alert alert-info",
+                                                  tags$ul(
+                                                    tags$li("The table below shows details of the 30 FBMKLCI stocks."),
+                                                    tags$li("The table is responsive table, feel free to filter or sort the stocks as you wished."),
+                                                  )
+                                                ),
+                                                helpText(align="center", "Table of 30 FBMKLCI stocks details"),
+                                                dataTableOutput('table'),
+                                       ),
+                                       tabPanel("Treemap",br(),
+                                                tags$div(
+                                                  class = "alert alert-info",
+                                                  tags$ul(
+                                                    tags$li("The treemap below shows 30 FBMKLCI stocks based on Market Cap."),
+                                                    tags$li("The comany with smallest market capital is SUPERMAX CORPORATION BERHAD (12.977 billion)."),
+                                                    tags$li("The company with largest market capital is MALAYAN BANKING BERHAD (93.709 billion)."),
+                                                  )
+                                                ),
+                                                helpText(align="center", "Treemap of 30 FBMKLCI stocks based on Market Cap (in billion)"),
+                                                column(2),
+                                                column(6,plotOutput("tree",width = "100%")),
+                                                column(2)
+                                                
+                                       ),
+                                       tabPanel("Line Chart", br(),
+                                                tags$div(
+                                                  class = "alert alert-info",
+                                                  tags$ul(
+                                                    tags$li("The line chart plots FBM KLCI Market Performance from 2020-03-19 to 2021-06-11."),
+                                                    tags$li("Please select the date range you wished to view."),
+                                                    tags$li("Please notice that the minimum date is 2020-03-19 and maximum date is 2021-06-11."),
+                                                  ),
+                                                ),
+                                                column(3,
+                                                       dateRangeInput("daterange", "Date range:",
+                                                                      start  = "2020-03-19",
+                                                                      end    = "2021-06-11",
+                                                                      min    = "2020-03-19",
+                                                                      max    = "2021-06-11"), 
+                                                ),
+                                                column(7, 
+                                                    helpText(align="center","FBM KLCI Market Performance from March 2020 to June 2021"),
+                                                    plotOutput("line",width = "100%"))
+                                                
+                                        )
+                                     )
+                                     ),
+                              column(1)
+                            ),
+                            
+                            
                    ),
                    
                    # ----------------------------------

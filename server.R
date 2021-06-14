@@ -12,6 +12,8 @@ library(dplyr)
 library(ggplot2)
 library(lubridate)
 library(scales)
+library(treemap)
+
 
 # Define server logic
 shinyServer(function(input, output) {
@@ -28,6 +30,37 @@ shinyServer(function(input, output) {
         unlist(stocks_by_sector)
     }
     # ----------------------------------
+    # Market Overview
+    stock_list_df_1 <- read.csv('data/FBM_KLCI_stocks_list.csv',header = TRUE)
+    output$table <- renderDataTable(stock_list_df_1)
+
+    output$tree <- renderPlot({
+      
+      treemap(stock_list_df_1, 
+              index="CompanyName", 
+              vSize="MarketCapInBillion", 
+              vColor="MarketCapInBillion", 
+              type="value", 
+              palette="RdYlBu", 
+              title=" ", 
+              range=c(12,94), n = 9)
+    }, height = 500, width = 700 )
+    
+    
+    output$line <- renderPlot({
+      performace_df <- read.csv('data/fbm_klci_market_performance.csv',header = TRUE)
+      performace_df$Date <- ymd(performace_df$Date)
+      performace_df <- performace_df %>% filter(Date >= input$daterange[1] & Date <= input$daterange[2])
+      
+      p <- ggplot(performace_df, aes(Date, Close, group = 1)) +
+        geom_line(color="#69b3a2", size=1, alpha=0.9) +
+        labs(x = "Date", y = "Close Price", title = " ") +
+        theme(axis.text = element_text(face = "bold", size = rel(1))) +
+        scale_x_date(labels=date_format ("%b %y"), breaks=("2 months")) +
+        theme(axis.text.x=element_text(angle = 90, hjust = 0))
+
+      print(p)
+    }, height = 500, width = 800)
     
     # ----------------------------------
     #panel 5

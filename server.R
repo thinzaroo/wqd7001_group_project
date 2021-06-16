@@ -2,10 +2,6 @@
 # This is the server logic of a Shiny web application. You can run the
 # application by clicking 'Run App' above.
 #
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
 
 library(shiny)
 library(dplyr)
@@ -13,7 +9,6 @@ library(ggplot2)
 library(lubridate)
 library(scales)
 library(treemap)
-
 
 # Define server logic
 shinyServer(function(input, output) {
@@ -73,14 +68,13 @@ shinyServer(function(input, output) {
       "Plantation" = "4",
       "Telecommunications Service Providers" = "5")
     
-    interval_list <- c("All time" = "1",
-                       "First Wave" = "2",
-                       "Second Wave" = "3",
-                       "Third Wave" = "4")
+    price_scale_list <- c("Trendline" = "1",
+                          "Last Done Price" = "2",
+                          "ROC (Rate of Change)" = "3")
     
     output$user_selection_analysis <- renderUI({
         sector_str <- paste("Sector: ", names(sector_list)[sector_list == input$sector_id])
-        interval_str <- paste("Interval: ",  names(interval_list)[interval_list == input$interval_id])
+        interval_str <- paste("Price Scale: ",  names(price_scale_list)[price_scale_list == input$price_scale_id])
         stock_list <- get_stocks_by_sector(input$sector_id)
         stock_list_str <- paste("List of stocks: ", toString(stock_list))
         
@@ -90,21 +84,39 @@ shinyServer(function(input, output) {
     output$plot_price_analysis_by_sector <- renderPlot({
       stock_list <- get_stocks_by_sector(input$sector_id)
       sector_df <- all_stocks_df %>% filter(Symbol %in% stock_list)
+    
+      str_title <- "Stock Price Trend"
       
-      glimpse(sector_df)
+      if(input$price_scale_id == 1){
+        
+        str_title <- "Summary of sector by price trend"
+        g <- ggplot(data = sector_df, aes(x=Date, y=trend, color=Symbol)) + geom_line()
+        
+      }else if(input$price_scale_id == 2){
+        
+        str_title <- "Summary of sector by Close Price"
+        g <- ggplot(data = sector_df, aes(x=Date, y=Close, color=Symbol)) + geom_line()
+        
+      }else{
+        
+        str_title <- "Summary of sector by ROC (Rate of Change)"
+        g <- ggplot(data = sector_df, aes(x=Date, y=roc, color=Symbol)) + geom_line()
+      }
       
-      g <- ggplot(data = sector_df, aes(x=Date, y=Close, color=Symbol)) + geom_line()
-      
+      #remove grid and background
       theme_bare <- theme(panel.background = element_blank(), 
                           panel.grid = element_blank())
       
+      #update axis to break 2 months each, and change text angle
       g <- g + theme_bare + 
         theme(axis.text = element_text(face = "bold", size = rel(1))) +
         scale_x_date(labels=date_format ("%b %y"), breaks=("2 months")) +
         theme(axis.text.x=element_text(angle = 90, hjust = 0))
       
-      g <- g + labs(title = "Stock Price Trend", 
+      #add title at the top and caption at bottom right
+      g <- g + labs(title = str_title, 
                     caption = "Source: Yahoo Finance")
+      
       print(g) 
     })
     

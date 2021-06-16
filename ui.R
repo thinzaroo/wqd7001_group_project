@@ -19,12 +19,12 @@ shinyUI(navbarPage(title = "Starry Nine",
                    # ----------------------------------
                    # tab panel 2 - Market Overview
                    tabPanel("Market Overview",
-                            titlePanel("Market Overview by Chart"),
+                            titlePanel("FBM KLCI Market Index Overview"),
                             
                             fluidRow(
                               column(1),
                               column(10,
-                                     helpText(align="center", "This section provides an overview of the FBMKLCI Stocks datasets in different charts."), 
+                                     helpText(align="center", "This section provides an overview of the FBMKLCI Market Index datasets in different charts."), 
                                      helpText(align="center", "Select the chart type you wished to explore."), 
                                      br(),
                                      tabsetPanel( 
@@ -98,6 +98,22 @@ shinyUI(navbarPage(title = "Starry Nine",
                    # tab panel 5 - Analysis by sector
                    tabPanel("Analysis",
                             titlePanel("Market Analysis by Sector"),
+                            
+                            fluidRow(
+                              column(2),
+                              column(8,
+                                     helpText(align="center", "This section let you analyse stock market performance by sector."), 
+                                     helpText(align="center", "Adjust the sector and other parameters from the left control"),
+                                     tags$div(
+                                       class = "alert alert-info",
+                                       tags$ul(
+                                         tags$li("xxxx"),
+                                         tags$li("xxxx"),
+                                       )
+                                     )
+                              ),
+                              column(2)),
+                            
                             sidebarLayout(
                               sidebarPanel(
                                 selectInput("sector_id", "Sector",
@@ -106,15 +122,16 @@ shinyUI(navbarPage(title = "Starry Nine",
                                                         "Healthcare Equipment & Services" = "3",
                                                         "Plantation" = "4",
                                                         "Telecommunications Service Providers" = "5")),
-                                radioButtons("interval_id", "Select interval",
-                                             choices = c("All time" = "1",
-                                                         "First Wave" = "2",
-                                                         "Second Wave" = "3",
-                                                         "Third Wave" = "4"))
+                                radioButtons("price_scale_id", "Select price scale",
+                                             choices = c("Trendline" = "1",
+                                                         "Last Done Price" = "2",
+                                                         "ROC (Rate of Change)" = "3"))
                               ),
                               mainPanel(
-                                helpText("Select the sector you wished to explore."),
+                                helpText("Stock Price Analysis by sector"),
+                                br(),
                                 htmlOutput("user_selection_analysis"),
+                                br(),
                                 plotOutput("plot_price_analysis_by_sector")
                               )
                             )

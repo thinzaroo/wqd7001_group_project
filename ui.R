@@ -90,11 +90,45 @@ shinyUI(navbarPage(title = "Starry Nine",
                    ),
                    # ----------------------------------
                    
-                   # ----------------------------------
+
                    # tab panel 4 - Stocks Comparison
-                   tabPanel("Stocks Comparison"
-                   ),
-                   
+                   tabPanel("Stocks Comparison",
+				            titlePanel("Stock Comparison by Chart"),
+							fluidRow(
+                              column(1),
+                              column(10,
+                                     helpText(align="center", "This section illustrates a comparison among the FBMKLCI Stocks datasets in one charts."), 
+                                     helpText(align="center", "Select the stocks you wished to compare, you may choose up to 3 stocks at once."), 
+                                     br(),
+
+
+                                       tabPanel("Line Chart", br(),
+                                                tags$div(
+                                                  class = "alert alert-info",
+                                                  tags$ul(
+                                                    tags$li("Please select the date range you wished to view."),
+                                                    tags$li("Please notice that the minimum date is 2020-03-19 and maximum date is 2021-06-11."),
+                                                  ),
+                                                ),
+                                                column(3,
+                                                       selectInput("stockSelection", "Choose 2 or 3 stocks for comparison", multiple = T, choices = ""),
+													   dateRangeInput("daterange", "Date range:",
+                                                                      start  = "2020-03-19",
+                                                                      end    = "2021-06-11",
+                                                                      min    = "2020-03-19",
+                                                                      max    = "2021-06-11"), 
+                                                ),
+                                                column(9,       
+                                                    plotOutput("line",width = "100%"))
+                                                
+                                        
+										)
+                                     ),
+                              column(1)
+                            ),
+                            
+					),
+				   # ----------------------------------
                    # tab panel 5 - Analysis by sector
                    tabPanel("Analysis",
                             titlePanel("Market Analysis by Sector"),

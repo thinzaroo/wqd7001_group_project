@@ -71,8 +71,8 @@ shinyUI(navbarPage(title = "Starry Nine",
                                                                       min    = "2020-03-19",
                                                                       max    = "2021-06-11"), 
                                                 ),
-                                                column(7, 
-                                                    helpText(align="center","FBM KLCI Market Performance from March 2020 to June 2021"),
+                                                column(9, 
+                                                    fluidRow(align="center",textOutput("chart_title")),
                                                     plotOutput("line",width = "100%"))
                                                 
                                         )

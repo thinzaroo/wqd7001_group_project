@@ -46,6 +46,9 @@ shinyServer(function(input, output) {
               range=c(12,94), n = 9)
     }, height = 500, width = 700 )
     
+    output$chart_title <- renderText({ 
+      paste("FBM KLCI Market Performance from ", as.character(input$daterange[1]), " to ", as.character(input$daterange[2]))
+    })
     
     output$line <- renderPlot({
       performace_df <- read.csv('data/fbm_klci_market_performance.csv',header = TRUE)

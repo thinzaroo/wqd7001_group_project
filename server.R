@@ -59,6 +59,47 @@ shinyServer(function(input, output) {
 
       print(p)
     }, height = 500, width = 800)
+	
+	#--------------------------------
+	    #Update the stocks list (assumed all but d and year are variables of interest)
+    updateSelectInput(session, "stockSelection", 
+                      choices = sort(unique(stock_list_df$Symbol)))
+    
+    
+    #Load the chart function
+    draw_chart <- function(stock_list_df, listv){
+        
+        df2 <- stock_list_df %>%
+            filter(Symbol %in% listv)
+        
+        df3 <- subset(df2,df2$Date >= input$daterange[1] & df2$Date <= input$daterange[2])
+            
+        
+        # Visualization
+        p <- ggplot(df3, aes(x = Date, y = Close)) + 
+             geom_line(aes(color = Symbol, linetype = Symbol)) + 
+             scale_color_discrete() 
+			
+		theme_bare <- theme(panel.background = element_blank(), 
+                          panel.grid = element_blank())
+						 
+		p <- p + theme_bare + 
+        theme(axis.text = element_text(face = "bold", size = rel(1))) +
+        #scale_x_date(labels=date_format ("%b %y"), breaks=("2 months")) +
+        theme(axis.text.x=element_text(angle = 90, hjust = 0))
+      
+		p <- p + labs(title = "Stock Comparison", 
+                    caption = "Source: Yahoo Finance")
+        print(p) 			
+    }  
+    output$plot_comparison = renderPlot({
+        
+        
+        #Only render if there are 2 or 3 stocks selected
+        req(between(length(input$stockSelection), 2, 3))
+        draw_chart(stock_list_df, input$stockSelection)
+    })
+	
     
     # ----------------------------------
     #panel 5

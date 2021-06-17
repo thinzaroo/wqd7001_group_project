@@ -94,7 +94,7 @@ shinyUI(navbarPage(title = "Starry Nine",
                    # tab panel 4 - Stocks Comparison
                    tabPanel("Stocks Comparison",
 				            titlePanel("Stock Comparison by Chart"),
-							fluidRow(
+							      fluidRow(
                               column(1),
                               column(10,
                                      helpText(align="center", "This section illustrates a comparison among the FBMKLCI Stocks datasets in one charts."), 
@@ -110,16 +110,16 @@ shinyUI(navbarPage(title = "Starry Nine",
                                                     tags$li("Please notice that the minimum date is 2020-03-19 and maximum date is 2021-06-11."),
                                                   ),
                                                 ),
-                                                column(3,
+                                                column(6,
                                                        selectInput("stockSelection", "Choose 2 or 3 stocks for comparison", multiple = T, choices = ""),
-													   dateRangeInput("daterange", "Date range:",
+													   dateRangeInput("daterange_c", "Date range:",
                                                                       start  = "2020-03-19",
                                                                       end    = "2021-06-11",
                                                                       min    = "2020-03-19",
                                                                       max    = "2021-06-11"), 
                                                 ),
-                                                column(9,       
-                                                    plotOutput("line",width = "100%"))
+                                                column(10,       
+                                                    plotOutput("plot_comparison",width = "100%"))
                                                 
                                         
 										)

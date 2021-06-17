@@ -11,7 +11,7 @@ library(scales)
 library(treemap)
 
 # Define server logic
-shinyServer(function(input, output) {
+shinyServer(function(input, output,session) {
     # ----------------------------------
     #general functions
     stock_list_df <- read.csv('data/FBM_KLCI_stocks_list.csv')
@@ -63,16 +63,16 @@ shinyServer(function(input, output) {
 	#--------------------------------
 	    #Update the stocks list (assumed all but d and year are variables of interest)
     updateSelectInput(session, "stockSelection", 
-                      choices = sort(unique(stock_list_df$Symbol)))
+                      choices = sort(unique(all_stocks_df$Symbol)))
     
     
     #Load the chart function
-    draw_chart <- function(stock_list_df, listv){
+    draw_chart <- function(all_stocks_df, listv){
         
-        df2 <- stock_list_df %>%
+        df2 <- all_stocks_df %>%
             filter(Symbol %in% listv)
         
-        df3 <- subset(df2,df2$Date >= input$daterange[1] & df2$Date <= input$daterange[2])
+        df3 <- subset(df2,df2$Date >= input$daterange_c[1] & df2$Date <= input$daterange_c[2])
             
         
         # Visualization
@@ -85,7 +85,7 @@ shinyServer(function(input, output) {
 						 
 		p <- p + theme_bare + 
         theme(axis.text = element_text(face = "bold", size = rel(1))) +
-        #scale_x_date(labels=date_format ("%b %y"), breaks=("2 months")) +
+        scale_x_date(labels=date_format ("%b %y"), breaks=("2 months")) +
         theme(axis.text.x=element_text(angle = 90, hjust = 0))
       
 		p <- p + labs(title = "Stock Comparison", 
@@ -97,7 +97,7 @@ shinyServer(function(input, output) {
         
         #Only render if there are 2 or 3 stocks selected
         req(between(length(input$stockSelection), 2, 3))
-        draw_chart(stock_list_df, input$stockSelection)
+        draw_chart(all_stocks_df, input$stockSelection)
     })
 	
     

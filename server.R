@@ -88,30 +88,30 @@ shinyServer(function(input, output,session) {
         add_lines(x = ~Date, y = ~Open,name="Open", line = list(color = 'black', width = 0.75), inherit = F)%>%
         layout(title = paste0(df$StkCode[1]," ",df$CompanyName[1], " (",df$Sector[1],")"),
                xaxis = list(
-                 rangeselector = list(
+                 rangeselector = list(x=0.35,y=-0.7,
                    buttons = list(
                      list(
                        count = 1,
-                       label = "RESET",
+                       label = "All Time",
                        step = "all"),
                      list(
                        count = 1,
-                       label = "1 mo",
+                       label = "1 month",
                        step = "week",
                        stepmode = "backward"),
                      list(
                        count = 3,
-                       label = "3 mo",
+                       label = "3 months",
                        step = "month",
                        stepmode = "backward"),
                      list(
                        count = 6,
-                       label = "6 mo",
+                       label = "6 months",
                        step = "month",
                        stepmode = "backward"),
                      list(
                        count = 1,
-                       label = "1 yr",
+                       label = "1 year",
                        step = "year",
                        stepmode = "backward"))),
                  rangeslider = list(visible = TRUE)),

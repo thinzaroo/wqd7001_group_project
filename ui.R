@@ -126,8 +126,9 @@ shinyUI(
                         class = "alert alert-info",
                         helpText(HTML("<b>User Guide</b>")),
                         tags$ul(
-                          tags$li("Select a stock"),
-                          tags$li("You can choose the desired interval")
+                          tags$li("Select a stock symbol"),
+                          tags$li("You can choose the desired interval from the bottom time slider"),
+                          tags$li("Alternatively can click on date range at the bottom: 1month, 3month, 6month, 1year")
                         )
                       ),
                       selectInput(inputId = "Stock_select",label = "Stock",stock_list_df$Symbol),

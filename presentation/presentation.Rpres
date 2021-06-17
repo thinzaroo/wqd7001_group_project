@@ -55,16 +55,11 @@ Main Features
 <div class="header"><b>1. Market Overview</b></div>
 <div class="content">Allow users to understand the 30 constituent stocks under FBM KLCI index: data table, treemap, time-series chart</div>
 <div class="header"><b>2. Stock Explorer</b></div>
-<div class="content">Users can study the performance (price and volume) of each stock based on desired time interval<div class="content">
-<div class="header">3. Stock Comparison</div>
+<div class="content">Users can study the performance (price and volume) of each stock based on desired time interval on a candlestick chart.<div class="content">
+<div class="header"><b>3. Stock Comparison</b></div>
 <div class="content">Let users to choose up to 3 stocks and make comparisons.</div>
-<div class="header">4. Analysis By Sector details</div>
-<div class="content">Analysis can be made per sector. You can choose: <br/>
-<ul>
-  <li>Daily closing price</li>
-  <li>Price Trend</li>
-  <li>Rate of change</li>
-</ul>
+<div class="header"><b>4. Analysis By Sector details</b></div>
+<div class="content">Analysis can be made per sector. You can choose: Daily closing price, Price Trend or Rate of change
 <br/>
 Furthermore, additional reference line can be added to check whether the Movement Control Orders (MCO) or the announcement of vaccine affect the market performance.
 </div>
@@ -75,26 +70,22 @@ Conclusion
 <div class="header">Challenges and lesson learnt</div>
 <div class="content">
 <ul>
-<li>placeholder</li>
+<li>We have learnt how to gather the dataset using web scraping method, and get it ready for analysis.</li>
+<li>Learnt how to use Git to cooperate well with the team, though conflicts are scary.</li>
+<li>Stock market concept are quite challenging for us to do a deeper analysis.</li>
 </ul>
 </div>
 
 <div class="header">References</div>
 <div class="content">
 <ul>
-  <li>CSS Theme: 
-      <a href="http://wrapbootstrap.com/preview/WB0JR603C">
-      http://wrapbootstrap.com/preview/WB0JR603C</a>
-  </li>
+  <li><a href="http://wrapbootstrap.com/preview/WB0JR603C">Open Source bootstrap Theme</a></li>
   
   <li>Stock market technical indicators:
-      <a href="https://bookdown.org/kochiuyu/Technical-Analysis-with-R/technical-indicators.html">
-      https://bookdown.org/kochiuyu/Technical-Analysis-with-R/technical-indicators.html</a>
+      <a href="https://bookdown.org/kochiuyu/Technical-Analysis-with-R/technical-indicators.html" target="_blank">Link</a>
   </li>
-  
   <li>Stock Market Analysis: 
-      <a href="http://rstudio-pubs-static.s3.amazonaws.com/495641_b5c18cffd89941a3baf43c1e5dde5ee2.html#introduction">
-       http://rstudio-pubs-static.s3.amazonaws.com/495641_b5c18cffd89941a3baf43c1e5dde5ee2.html#introduction</a>
+      <a href="http://rstudio-pubs-static.s3.amazonaws.com/495641_b5c18cffd89941a3baf43c1e5dde5ee2.html#introduction" target="_blank">Link</a>
   </li>
 </ul>
 </div>

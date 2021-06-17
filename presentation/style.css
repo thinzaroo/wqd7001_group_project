@@ -1,0 +1,81 @@
+/*
+http://wrapbootstrap.com/preview/WB0JR603C
+*/
+
+@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro|Montserrat|Raleway');
+@import url('https://fonts.googleapis.com/css?family=Inconsolata');
+
+
+body {
+	font-family: 'Raleway', sans-serif;
+}
+
+.reveal h1, .reveal h2, .reveal h3 {
+  text-align: center;
+  padding: 10px;
+  /* opacity: 0.9; */
+  font-size: 65px;
+  /* font-weight: bolder; */
+  color: black !important;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif !important;
+}
+
+
+.reveal h2, .reveal h3 {
+  background-color: rgb(55, 194, 212);
+  text-align: center;
+  padding: 10px;
+  font-size: 65px;
+}
+
+
+.section .reveal .state-background {
+    /* background-image: url('bg2.png');;  */
+    /* background-image: url('https://i.pinimg.com/originals/3d/b3/a5/3db3a5d57c022f10e567d8e5f3cc4041.jpg');;  */
+    /* background-image: url('https://i.pinimg.com/originals/4d/1a/c7/4d1ac756cbd47b149ab2d8ce4b10954d.jpg');;  */
+    background-image: url('https://cdn.wallpapersafari.com/82/42/0dFT79.jpg');
+
+    background-position: center center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    /* opacity: 0.5; */
+    background-size: 100% 100%;
+    /* background-color: #656565; */
+}
+
+.group {
+  text-align: center;
+  padding: 10px;
+  font-size: 30px !important;
+  /* opacity: 0.7; */
+  /* font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif !important; */
+  font-weight: bold !important;
+}
+
+.group-header {
+  font-weight: bolder !important;
+}
+
+.header {
+  font-weight: bold;
+  color: rgb(55, 194, 212);
+}
+
+.content {
+  font-size: 25px !important;
+}
+
+.reveal .state-background {
+  /* background-image: url('presentation-figure/bg.png');;  */
+    /* background-image: url('https://i.pinimg.com/originals/3d/b3/a5/3db3a5d57c022f10e567d8e5f3cc4041.jpg');;  */
+    /* background-image: url('https://i.pinimg.com/originals/39/22/d9/3922d94c0a462e402d2e2cf7e39a1a0f.jpg');;  */
+    /* background-image: url('https://i.pinimg.com/originals/4d/1a/c7/4d1ac756cbd47b149ab2d8ce4b10954d.jpg');;  */
+    background-image: url('https://cdn.wallpapersafari.com/82/42/0dFT79.jpg');
+
+    background-position: center center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    /* opacity: 0.5; */
+    background-size: 100% 100%;    
+
+}

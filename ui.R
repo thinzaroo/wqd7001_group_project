@@ -4,6 +4,10 @@ library(ggplot2)
 library(lubridate)
 library(scales)
 library(treemap)
+library(data.table)
+library(plotly)
+
+stock_list_df <- read.csv('data/FBM_KLCI_stocks_list.csv')
 
 shinyUI(
   navbarPage(
@@ -105,13 +109,32 @@ shinyUI(
         ),
         column(1)
       ),
-      
-      
     ),
     
     # ----------------------------------
     # tab panel 3 - Stock Explorer
-    tabPanel("Stock Explorer"),
+    tabPanel("Stock Explorer",
+             titlePanel("Stock Explorer"),
+             fluidRow(
+               column(2),
+               column(8,
+                      helpText(
+                        align = "center",
+                        "This section allows you to study details of each stock's performance."
+                      ),
+                      tags$div(
+                        class = "alert alert-info",
+                        helpText(HTML("<b>User Guide</b>")),
+                        tags$ul(
+                          tags$li("Select a stock"),
+                          tags$li("You can choose the desired interval")
+                        )
+                      ),
+                      selectInput(inputId = "Stock_select",label = "Stock",stock_list_df$Symbol),
+                      plotlyOutput("plotCandleStick")
+               ),
+               column(2))
+    ),
     # ----------------------------------
     
     

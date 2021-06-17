@@ -10,6 +10,7 @@ library(lubridate)
 library(scales)
 library(treemap)
 library(data.table)
+library(plotly)
 
 # Define server logic
 shinyServer(function(input, output,session) {
@@ -60,6 +61,73 @@ shinyServer(function(input, output,session) {
 
       print(p)
     }, height = 500, width = 800)
+    
+    #--------------------------------
+    #Stock Explorer
+    #--------------------------------
+    #Rename and select column from df1
+    df1 <- stock_list_df %>% select(Symbol,StkCode,CompanyName,Sector)
+    names(df1) <- c("Symbol","StkCode","CompanyName","Sector")
+    
+    #Merge selected column of df1 to df
+    df <- all_stocks_df %>% left_join(df1 %>% select(Symbol,StkCode,CompanyName,Sector), by = c("Symbol" = "Symbol"))
+    
+    #plot
+    output$plotCandleStick <- renderPlotly({
+      
+      df <- df %>% 
+        select(Date,Symbol,Open,High,Low,Close,Volume,StkCode,CompanyName,Sector) %>%
+        filter(Symbol == input$Stock_select)%>%
+        mutate(Date = as.POSIXct(Date,format= "%Y-%m-%d"))
+      
+      p1 <- df %>%
+        plot_ly(
+          type = "candlestick",
+          x = ~Date,
+          open = ~Open, high = ~High, low = ~Low, close = ~Close,name="price") %>%
+        add_lines(x = ~Date, y = ~Open,name="Open", line = list(color = 'black', width = 0.75), inherit = F)%>%
+        layout(title = paste0(df$StkCode[1]," ",df$CompanyName[1], " (",df$Sector[1],")"),
+               xaxis = list(
+                 rangeselector = list(
+                   buttons = list(
+                     list(
+                       count = 1,
+                       label = "RESET",
+                       step = "all"),
+                     list(
+                       count = 1,
+                       label = "1 mo",
+                       step = "week",
+                       stepmode = "backward"),
+                     list(
+                       count = 3,
+                       label = "3 mo",
+                       step = "month",
+                       stepmode = "backward"),
+                     list(
+                       count = 6,
+                       label = "6 mo",
+                       step = "month",
+                       stepmode = "backward"),
+                     list(
+                       count = 1,
+                       label = "1 yr",
+                       step = "year",
+                       stepmode = "backward"))),
+                 rangeslider = list(visible = TRUE)),
+               yaxis = list(title = "Price (MYR)",
+                            showgrid = TRUE,
+                            showticklabels = TRUE))
+      p2 <- df %>%
+        plot_ly(x=~Date, y=~Volume, type='bar', name = "Volume", color = ~Symbol, colors = "blue") %>%
+        layout(yaxis = list(title = "Volume"))
+      
+      p <- subplot(p1, p2, heights = c(0.7,0.3), nrows=2,
+                   shareX = TRUE, titleY = TRUE)
+      p
+    })
+    
+    #--------------------------------
 	
 	#--------------------------------
 	    #Update the stocks list (assumed all but d and year are variables of interest)
@@ -100,7 +168,7 @@ shinyServer(function(input, output,session) {
         req(between(length(input$stockSelection), 2, 3))
         draw_chart(all_stocks_df, input$stockSelection)
     })
-	
+    #--------------------------------
     
     # ----------------------------------
     #panel 5

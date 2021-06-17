@@ -1,12 +1,15 @@
-Analysis of Bursa Malaysia Stock Market during the Covid-19 Pandemic
+Starry Nine: A rookie investor's reference
 ========================================================
 css: style.css
 
-
 <div class="box">
 <div class="group"><br>
-WQD7001: Group Project (Sem 2 2020/2021)<br><br>
-<div class="group-header">Starry Nine</div><br>
+<div class="group-header"><i>Analysis of Bursa Malaysia Stock Market during Covid-19 Pandemic</i></div><br>
+
+WQD7001: Group Project (Sem 2 2020/2021)
+
+<br><br>
+
 Thinzar Oo (17219923)<br>
 Sim Jia Yik (s2025160)<br>
 Hui Ting Chow (s2032914)<br>
@@ -46,13 +49,26 @@ Methodology (OSEMN Model)
 <img src="presentation-figure/methodology.jpg"></img>
 </div>
 
-App Features
+Main Features
 ========================================================
-1. Market Overview details
-2. Stock Explorer details
-3. Stock Comparison Tool details
-4. Analysis By Sector details
-5. About Us details
+<div class="content">
+<div class="header"><b>1. Market Overview</b></div>
+<div class="content">Allow users to understand the 30 constituent stocks under FBM KLCI index: data table, treemap, time-series chart</div>
+<div class="header"><b>2. Stock Explorer</b></div>
+<div class="content">Users can study the performance (price and volume) of each stock based on desired time interval<div class="content">
+<div class="header">3. Stock Comparison</div>
+<div class="content">Let users to choose up to 3 stocks and make comparisons.</div>
+<div class="header">4. Analysis By Sector details</div>
+<div class="content">Analysis can be made per sector. You can choose: <br/>
+<ul>
+  <li>Daily closing price</li>
+  <li>Price Trend</li>
+  <li>Rate of change</li>
+</ul>
+<br/>
+Furthermore, additional reference line can be added to check whether the Movement Control Orders (MCO) or the announcement of vaccine affect the market performance.
+</div>
+</div>
 
 Conclusion
 ========================================================
@@ -83,19 +99,13 @@ Conclusion
 </ul>
 </div>
 
-<div class="header">App Links</div>
+<div class="header">Check out our work</div>
 <div class="content">
 <ul>
-  <li>Shiny app link: 
-      <a href="http://wrapbootstrap.com/preview/WB0JR603C">
-      https://thinzar.shinyapps.io/wqd7001_group_project/</a>
+  <li><a href="https://thinzar.shinyapps.io/StarryNineGroupProject/" target="_blank">Shiny app link</a></li>
+  <li><a href="" target="_blank">Our video presentation</a>
   </li>
-  <li>Link to video presentation: 
-  </li>
-  <li>Code and dataset under Github: 
-      <a href="http://wrapbootstrap.com/preview/WB0JR603C">
-      https://github.com/thinzaroo/wqd7001_group_project</a>
-  </li>
+  <li>Source Code and datasets under our <a href="https://github.com/thinzaroo/wqd7001_group_project" target="_blank">Github</a></li>
 </ul>
 </div>
 

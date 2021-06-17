@@ -183,12 +183,14 @@ shinyUI(
                       helpText(align="center", "Adjust the sector and other parameters from the left control"),
                       tags$div(
                         class = "alert alert-info",
+                        helpText(HTML("<b>User Guide</b>")),
                         tags$ul(
                           tags$li(HTML("<b>Sector: </b>Choose a desired sector you wish to explore")),
                           tags$li(HTML("<b>Price Scale: </b>Select desire price scale for comparisons between stocks")),
-                          tags$li(HTML("<b>Reference Line: </b>Add reference lines to further inspect the impact"))
+                          tags$li(HTML("<b>Reference Line: </b>Add reference lines to further inspect the impact")),
+                          tags$li(HTML("<i>MCO: Movement Control Order imposed by Malaysian government</i>"))
                         )
-                      )
+                      ),
                ),
                column(2)),
              
@@ -213,14 +215,12 @@ shinyUI(
                ),
                
                mainPanel(
-                 helpText("Stock Price Analysis by sector"),
-                 br(),
+                 helpText(HTML("<h4>Selected criteria:</h4>")),
                  htmlOutput("user_selection_analysis"),
                  helpText(HTML("<h4>Analysis by daily close price</h4>")),
                  plotOutput("plot_price_analysis_by_sector"),
                  br(),
                  helpText(HTML("<h4>Summary of daily traded volume</h4>")),
-                 br(),
                  helpText("Note: Movement indicates how many times the stock is traded above the mean"),
                  dataTableOutput('summary_by_volume')
                )

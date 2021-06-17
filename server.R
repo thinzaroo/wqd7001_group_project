@@ -119,6 +119,8 @@ shinyServer(function(input, output,session) {
       stock_list <- get_stocks_by_sector(input$sector_id)
       stock_list_str <- paste(HTML("<b>List of stocks: </b>"), toString(stock_list))
       interval_str <- paste(HTML("<b>Price Scale: </b>"),  names(price_scale_list)[price_scale_list == input$price_scale_id])
+      
+      #initialise empty strings
       ref_line_str <- ""
       ref_line_legend_str <- ""
       mco1_legend <- ""
@@ -143,7 +145,7 @@ shinyServer(function(input, output,session) {
         vaccine_legend <- HTML("<font color=\'green\'>-----</font> First Vaccine Announcement by Pfizer-BioNTech")
       
       ref_line_legend_str <- paste(mco1_legend, mco2_legend, mco3_legend, vaccine_legend, "<br/>")
-      HTML(paste(sector_str, interval_str, stock_list_str, ref_line_str, ref_line_legend_str, sep = '<br/>'))
+      HTML(paste(sector_str, stock_list_str, interval_str, ref_line_str, ref_line_legend_str, sep = '<br/>'))
     })
     
     output$plot_price_analysis_by_sector <- renderPlot({

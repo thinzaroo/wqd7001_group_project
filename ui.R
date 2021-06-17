@@ -128,7 +128,12 @@ shinyUI(
                         tags$ul(
                           tags$li("Select a stock symbol"),
                           tags$li("You can choose the desired interval from the bottom time slider"),
-                          tags$li("Alternatively can click on date range at the bottom: 1month, 3month, 6month, 1year")
+                          tags$li("Alternatively can click on date range at the bottom: 1month, 3month, 6month, 1year"),
+                          tags$li("Click the icon and then hover your mouse over the category of interest to view the details of chandlestick chart. To turn this feature off, just click the icon again."),
+                          tags$li("Compare data on hover (2nd icon from the right in plotly graph:"),
+                          tags$li("-> This feature allow user to compare data on hover all points with the same x-value (Open,Close,High,Low)"),
+                          tags$li("Toggle Spike Lines (4th icon from the right in plotly graph):"),
+                          tags$li("-> This feature displays lines on the graph indicating the exact x-axis (Date) and y-axis (Price[MYR]) for a particular category.")
                         )
                       ),
                       selectInput(inputId = "Stock_select",label = "Stock",stock_list_df$Symbol),

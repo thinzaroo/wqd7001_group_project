@@ -21,14 +21,14 @@ Background
 
 <div class="header">Introduction</div>
 <div class="content">
-<ol>The covid-19 pandemic has affected globally, stock market is not an exception. Our group is interested to study its impact on the Malaysia Stock Market using the market data between 01-Jan-2020 to 12-May-2021.</ol>
+<ol>The covid-19 pandemic has affected globally, stock market is not an exception. Our group is interested to study its impact on the Malaysia Stock Market using the market data between 01-Jan-2020 to 12-May-2021. There are 900+ stocks but we have chosen to study the 30 stocks from FBM KLCI Market Index.</ol>
 </div>
 
 <div class="header">Objectives</div>
 <div class="content">
 <ul>
 <li>To present the general overview of the Malaysia stock market</li>
-<li>To allow users to compare stocks or view details of each stock over time</li>
+<li>To allow users to compare stocks or study the details of each stock over time</li>
 <li>To present our analysis to help amateur investors like us to make well-informed decisions</li>
 </ul>
 </div>
@@ -61,7 +61,7 @@ Main Features
 <div class="header"><b>4. Analysis by sector</b></div>
 <div class="content">Analysis can be made per sector. You can choose: Daily closing price, Price Trend or Rate of change
 <br/>
-Furthermore, additional reference line can be added to check whether the Movement Control Orders (MCO) or the announcement of vaccine affect the market performance.
+Furthermore, additional reference line can be added to check how the Movement Control Orders (MCO) or the announcement of vaccine affect the market performance.
 </div>
 </div>
 
@@ -93,7 +93,7 @@ Conclusion
 <div class="content">
 <ul>
   <li><a href="https://thinzar.shinyapps.io/StarryNineGroupProject/" target="_blank">Shiny app link</a></li>
-  <li><a href="" target="_blank">Our video presentation</a>
+  <li><a href="https://www.youtube.com/watch?v=LM4sxevnjYY" target="_blank">Our video presentation</a>
   </li>
   <li>Web Scraping code, Shiny App source code and datasets under our <a href="https://github.com/thinzaroo/wqd7001_group_project" target="_blank">Github</a></li>
 </ul>

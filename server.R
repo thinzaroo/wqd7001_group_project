@@ -9,6 +9,7 @@ library(ggplot2)
 library(lubridate)
 library(scales)
 library(treemap)
+library(data.table)
 
 # Define server logic
 shinyServer(function(input, output,session) {
@@ -104,28 +105,51 @@ shinyServer(function(input, output,session) {
     # ----------------------------------
     #panel 5
     sector_list <- c("Banking" = "1",
-      "Food & Beverages" = "2",
-      "Healthcare Equipment & Services" = "3",
-      "Plantation" = "4",
-      "Telecommunications Service Providers" = "5")
+                     "Food & Beverages" = "2",
+                     "Healthcare Equipment & Services" = "3",
+                     "Plantation" = "4",
+                     "Telecommunications Service Providers" = "5")
     
     price_scale_list <- c("Trendline" = "1",
-                          "Last Done Price" = "2",
+                          "Daily Close Price" = "2",
                           "ROC (Rate of Change)" = "3")
     
     output$user_selection_analysis <- renderUI({
-        sector_str <- paste("Sector: ", names(sector_list)[sector_list == input$sector_id])
-        interval_str <- paste("Price Scale: ",  names(price_scale_list)[price_scale_list == input$price_scale_id])
-        stock_list <- get_stocks_by_sector(input$sector_id)
-        stock_list_str <- paste("List of stocks: ", toString(stock_list))
-        
-        HTML(paste(sector_str, interval_str, stock_list_str, sep = '<br/>'))
+      sector_str <- paste(HTML("<b>Sector: </b>"), names(sector_list)[sector_list == input$sector_id])
+      stock_list <- get_stocks_by_sector(input$sector_id)
+      stock_list_str <- paste(HTML("<b>List of stocks: </b>"), toString(stock_list))
+      interval_str <- paste(HTML("<b>Price Scale: </b>"),  names(price_scale_list)[price_scale_list == input$price_scale_id])
+      ref_line_str <- ""
+      ref_line_legend_str <- ""
+      mco1_legend <- ""
+      mco2_legend <- ""
+      mco3_legend <- ""
+      vaccine_legend <- ""
+      
+      if(input$chk_mco_1 | input$chk_mco_2 | input$chk_mco_3 | input$chk_vaccine){
+        ref_line_str <- HTML("<b>Reference Line(s): </b>")
+      }
+      
+      if(input$chk_mco_1)
+        mco1_legend <- HTML("<font color=\'red\'>-----</font> MCO 1.0<br/>")
+      
+      if(input$chk_mco_2)
+        mco2_legend <- HTML("<font color=\'orange\'>-----</font> MCO 2.0<br/>")
+      
+      if(input$chk_mco_3)
+        mco3_legend <- HTML("<font color=\'orange\'>-----</font> MCO 3.0<br/>")
+      
+      if(input$chk_vaccine)
+        vaccine_legend <- HTML("<font color=\'green\'>-----</font> First Vaccine Announcement by Pfizer-BioNTech")
+      
+      ref_line_legend_str <- paste(mco1_legend, mco2_legend, mco3_legend, vaccine_legend, "<br/>")
+      HTML(paste(sector_str, interval_str, stock_list_str, ref_line_str, ref_line_legend_str, sep = '<br/>'))
     })
     
     output$plot_price_analysis_by_sector <- renderPlot({
       stock_list <- get_stocks_by_sector(input$sector_id)
       sector_df <- all_stocks_df %>% filter(Symbol %in% stock_list)
-    
+      
       str_title <- "Stock Price Trend"
       
       if(input$price_scale_id == 1){
@@ -135,7 +159,7 @@ shinyServer(function(input, output,session) {
         
       }else if(input$price_scale_id == 2){
         
-        str_title <- "Summary of sector by Close Price"
+        str_title <- "Summary of sector by Daily close price"
         g <- ggplot(data = sector_df, aes(x=Date, y=Close, color=Symbol)) + geom_line()
         
       }else{
@@ -143,6 +167,19 @@ shinyServer(function(input, output,session) {
         str_title <- "Summary of sector by ROC (Rate of Change)"
         g <- ggplot(data = sector_df, aes(x=Date, y=roc, color=Symbol)) + geom_line()
       }
+      
+      #add reference line
+      if(input$chk_mco_1)
+        g <- g + geom_vline(xintercept = as.Date("2020-03-18"), linetype="dashed", color="red")
+      
+      if(input$chk_mco_2)
+        g <- g + geom_vline(xintercept = as.Date("2021-01-13"), linetype="dashed", color="orange")
+      
+      if(input$chk_mco_3)
+        g <- g + geom_vline(xintercept = as.Date("2021-05-03"), linetype="dashed", color="gold")
+      
+      if(input$chk_vaccine)
+        g <- g + geom_vline(xintercept = as.Date("2020-11-9"), linetype="dashed", color="springgreen4")
       
       #remove grid and background
       theme_bare <- theme(panel.background = element_blank(), 
@@ -160,6 +197,16 @@ shinyServer(function(input, output,session) {
       
       print(g) 
     })
+    
+    output$summary_by_volume <- renderDataTable({
+      stock_list <- get_stocks_by_sector(input$sector_id)
+      sector_df <- all_stocks_df %>% filter(Volume > 0 & Symbol %in% stock_list)
+      
+      setDT(sector_df)
+      volumeSummary <- sector_df[, as.list(summary(Volume)), by = Symbol]
+      volumeSummary$Movement <- volumeSummary$Max. / volumeSummary$Mean
+      print(volumeSummary[order(Movement)])
+    }, options = list(sDom  = '<"top"><"bottom">'))
     
     # ----------------------------------
 })

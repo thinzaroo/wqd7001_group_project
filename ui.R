@@ -9,7 +9,7 @@ shinyUI(navbarPage(title = "Starry Nine",
                    theme = "style/style.css",
                    fluid = TRUE, 
                    collapsible = TRUE,
-                  
+              
                    # ----------------------------------
                    # tab panel 1 - Home
                    tabPanel("Home",
@@ -92,42 +92,9 @@ shinyUI(navbarPage(title = "Starry Nine",
                    
 
                    # tab panel 4 - Stocks Comparison
-                   tabPanel("Stocks Comparison",
-				            titlePanel("Stock Comparison by Chart"),
-							fluidRow(
-                              column(1),
-                              column(10,
-                                     helpText(align="center", "This section illustrates a comparison among the FBMKLCI Stocks datasets in one charts."), 
-                                     helpText(align="center", "Select the stocks you wished to compare, you may choose up to 3 stocks at once."), 
-                                     br(),
-
-
-                                       tabPanel("Line Chart", br(),
-                                                tags$div(
-                                                  class = "alert alert-info",
-                                                  tags$ul(
-                                                    tags$li("Please select the date range you wished to view."),
-                                                    tags$li("Please notice that the minimum date is 2020-03-19 and maximum date is 2021-06-11."),
-                                                  ),
-                                                ),
-                                                column(3,
-                                                       selectInput("stockSelection", "Choose 2 or 3 stocks for comparison", multiple = T, choices = ""),
-													   dateRangeInput("daterange", "Date range:",
-                                                                      start  = "2020-03-19",
-                                                                      end    = "2021-06-11",
-                                                                      min    = "2020-03-19",
-                                                                      max    = "2021-06-11"), 
-                                                ),
-                                                column(9,       
-                                                    plotOutput("line",width = "100%"))
-                                                
-                                        
-										)
-                                     ),
-                              column(1)
-                            ),
-                            
-					),
+                   tabPanel("Stocks Comparison"
+                   ),
+                   
 				   # ----------------------------------
                    # tab panel 5 - Analysis by sector
                    tabPanel("Analysis",
@@ -141,8 +108,9 @@ shinyUI(navbarPage(title = "Starry Nine",
                                      tags$div(
                                        class = "alert alert-info",
                                        tags$ul(
-                                         tags$li("xxxx"),
-                                         tags$li("xxxx"),
+                                         tags$li(HTML("<b>Sector: </b>Choose a desired sector you wish to explore")),
+                                         tags$li(HTML("<b>Price Scale: </b>Select desire price scale for comparisons between stocks")),
+                                         tags$li(HTML("<b>Reference Line: </b>Add reference lines to further inspect the impact"))
                                        )
                                      )
                               ),
@@ -158,15 +126,26 @@ shinyUI(navbarPage(title = "Starry Nine",
                                                         "Telecommunications Service Providers" = "5")),
                                 radioButtons("price_scale_id", "Select price scale",
                                              choices = c("Trendline" = "1",
-                                                         "Last Done Price" = "2",
-                                                         "ROC (Rate of Change)" = "3"))
+                                                         "Daily close price" = "2",
+                                                         "ROC (Rate of Change)" = "3")),
+                                br(),
+                                helpText(HTML("<b>Choose reference line</b>")),
+                                checkboxInput("chk_mco_1", "start of MCO 1.0", value=FALSE),
+                                checkboxInput("chk_mco_2", "start of MCO 2.0", value=FALSE),
+                                checkboxInput("chk_mco_3", "start of MCO 3.0", value=FALSE),
+                                checkboxInput("chk_vaccine", "First vaccine announcement by Pfizer", value=FALSE),
                               ),
+                              
                               mainPanel(
-                                helpText("Stock Price Analysis by sector"),
+                                helpText(HTML("<h4>Your selections:</h4>")),
                                 br(),
                                 htmlOutput("user_selection_analysis"),
                                 br(),
-                                plotOutput("plot_price_analysis_by_sector")
+                                helpText(HTML("<h4>Analysis by daily close price</h4>")),
+                                plotOutput("plot_price_analysis_by_sector"),
+                                br(),
+                                helpText(HTML("<h4>Summary of daily traded volume</h4>")),
+                                dataTableOutput('summary_by_volume')
                               )
                             )
                    ),
